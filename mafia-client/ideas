@@ -1,0 +1,22 @@
+Game Table
+id, p1 id, ... p15 id, 
+
+Player Table
+id, name, role
+
+
+Angular flow:
+Create game or Join Game
+create game will POST new GameSession and prompt a form for a username
+join game will prompt form for a username then go to lobby screen and do a PATCH on GameSession returns a player object to identify
+start game button will trigger some task POST start game method which then assigns roles randomly to each player 
+
+
+
+Stretch goals:
+- add multiple modes 
+
+
+Game rules:
+- classic: 10 players + min, 15 players max
+
