@@ -10,6 +10,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import { AboutComponent } from './about/about.component';
+import {MatIconModule} from '@angular/material/icon';
+
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { AboutComponent } from './about/about.component';
     MatCardModule,
     MatButtonModule,
     MatMenuModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
