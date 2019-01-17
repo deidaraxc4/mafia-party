@@ -11,6 +11,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import { AboutComponent } from './about/about.component';
 import {MatIconModule} from '@angular/material/icon';
+import { RoleCardComponent } from './role-card/role-card.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
@@ -18,7 +20,8 @@ import {MatIconModule} from '@angular/material/icon';
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    RoleCardComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     MatMenuModule,
     AppRoutingModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

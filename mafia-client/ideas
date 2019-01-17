@@ -14,9 +14,12 @@ start game button will trigger some task POST start game method which then assig
 
 
 Stretch goals:
-- add multiple modes 
+- add multiple modes (custom game mode, chaos mode, etc)
+- allow for less than 15 players to start a game
 
 
 Game rules:
-- classic: 10 players + min, 15 players max
-
+- classic: 15 players max
+ - 4 mafia (1 mafia is godfather)
+ - 1 neutral role (serial killer, jester, survivor or executioner)
+ - 10 town roles
