@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { RoleCard } from './role-card.model';
 
 @Component({
   selector: 'app-role-card',
@@ -6,10 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./role-card.component.css']
 })
 export class RoleCardComponent implements OnInit {
-  roleName : string;
-  alignment : string;
-  description : string;
-  imgUrl : string;
+  @Input('roleCard') roleCard : RoleCard;
 
   constructor() { }
 

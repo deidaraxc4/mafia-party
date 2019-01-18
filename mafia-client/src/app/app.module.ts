@@ -13,6 +13,7 @@ import { AboutComponent } from './about/about.component';
 import {MatIconModule} from '@angular/material/icon';
 import { RoleCardComponent } from './role-card/role-card.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 
@@ -32,7 +33,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatMenuModule,
     AppRoutingModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

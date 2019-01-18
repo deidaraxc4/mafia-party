@@ -13,7 +13,10 @@
     </mat-card-content>
 </mat-card>
 
+<p>add section of how who wakes up when during the night here</p>
 <p>a filter search bar here would be nice</p>
 
 <h1>Role cards go here with abilities on each</h1>
-<app-role-card></app-role-card>
+
+<app-role-card *ngFor="let role of roleCardArray" [roleCard]="role"></app-role-card>
+

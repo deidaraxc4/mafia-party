@@ -1,10 +1,10 @@
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title> Role here</mat-panel-title>
-      <mat-panel-description>alignment here</mat-panel-description>
+      <mat-panel-title>{{roleCard.roleName}}</mat-panel-title>
+      <mat-panel-description>{{roleCard.alignment}}</mat-panel-description>
     </mat-expansion-panel-header>
-    <p>description here</p>
-    <img [src]="imgUrl">
+    <p>{{roleCard.description}}</p>
+    <img [src]="roleCard.imgUrl">
   </mat-expansion-panel>
 </mat-accordion>
