@@ -12,10 +12,13 @@
 	<artifactId>mafia-party</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>mafia-party</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Spring Application that exposes APIs for Mafia Party client</description>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<flyway.version>4.0.3</flyway.version>
 	</properties>
 
 	<dependencies>
@@ -45,6 +48,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway.version}</version>
+				<configuration>
+					<url>jdbc:postgresql://localhost:5432/postgres</url>
+					<user>postgres</user>
+					<password>postgres</password>
+					<schemas>
+						<schema>public</schema>
+					</schemas>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
