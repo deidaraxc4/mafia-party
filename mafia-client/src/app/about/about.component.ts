@@ -16,7 +16,7 @@ export class AboutComponent implements OnInit {
   ngOnInit() {
     this.roleCardArray = [
       {
-        roleName:"Sherrif",
+        roleName:"Sheriff",
         alignment:"Town - Investigative",
         description:"You are the law enforcement of the town. Interrogate one person each night to reveal if they are suspicious or not.",
         imgUrl:"https://www.blankmediagames.com/wp-content/themes/townofsalem/assets/img/roles/Sheriff.png"
