@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("mafiaGame")
 public class MafiaController {
 
     private MafiaService mafiaService;
@@ -26,7 +26,7 @@ public class MafiaController {
     }
 
     @PostMapping
-    public GameSession createMafiaGame(Player player) {
+    public GameSession createMafiaGame(@RequestBody PlayerRequestBody player) {
         return mafiaService.createMafiaGame(player);
     }
 

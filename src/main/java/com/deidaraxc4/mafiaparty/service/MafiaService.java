@@ -1,7 +1,7 @@
 package com.deidaraxc4.mafiaparty.service;
 
 import com.deidaraxc4.mafiaparty.model.GameSession;
-import com.deidaraxc4.mafiaparty.model.Player;
+import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
 
 public interface MafiaService {
 
@@ -10,6 +10,6 @@ public interface MafiaService {
      * @param player The narrator player
      * @return newly created GameSession
      */
-    GameSession createMafiaGame(Player player);
+    GameSession createMafiaGame(PlayerRequestBody player);
 
 }

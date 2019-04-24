@@ -1,11 +1,13 @@
 package com.deidaraxc4.mafiaparty.service.impl;
 
+import com.deidaraxc4.mafiaparty.constants.CustomTypes.GameState;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerState;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
 import com.deidaraxc4.mafiaparty.repository.PlayerRepository;
+import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
 import com.deidaraxc4.mafiaparty.service.MafiaService;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +27,21 @@ public class MafiaServiceImpl implements MafiaService {
     }
 
     @Override
-    public GameSession createMafiaGame(Player player) {
-        player.setStatus(PlayerState.ALIVE.toString());
-        player.setPlayerRole(PlayerRole.Narrator.toString());
+    public GameSession createMafiaGame(PlayerRequestBody player) {
         GameSession gameSession = new GameSession();
+        Player p = new Player();
+        gameSession.setGameState(GameState.LOBBY.toString());
+        gameSessionRepository.save(gameSession);
+        p.setPlayerName(player.getPlayerName());
+        p.setStatus(PlayerState.ALIVE.toString());
+        p.setPlayerRole(PlayerRole.Narrator.toString());
+        p.setGameSessionId(gameSession.getGameSessionId());
+        p.setGameSession(gameSession);
+        playerRepository.save(p);
         gameSession.setPlayers(new ArrayList<>());
-        gameSession.getPlayers().add(player);
+        gameSession.getPlayers().add(p);
+        gameSession.setPlayerCount(gameSession.getPlayerCount() + 1);
+        gameSessionRepository.save(gameSession);
         return gameSession;
     }
 

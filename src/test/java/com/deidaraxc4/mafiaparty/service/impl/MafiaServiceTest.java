@@ -2,11 +2,12 @@ package com.deidaraxc4.mafiaparty.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.deidaraxc4.mafiaparty.constants.CustomTypes.GameState;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.model.GameSession;
-import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
 import com.deidaraxc4.mafiaparty.repository.PlayerRepository;
+import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class MafiaServiceTest {
 
     @Nested
     class createNewMafiaGame {
-        Player player;
+        PlayerRequestBody player;
         GameSession gameSession;
         Executable test = () -> {
             gameSession = mafiaService.createMafiaGame(player);
@@ -41,7 +42,7 @@ public class MafiaServiceTest {
 
         @BeforeEach
         void beforeEach() {
-            player = new Player();
+            player = new PlayerRequestBody();
             player.setPlayerName("some player");
         }
 
@@ -50,6 +51,8 @@ public class MafiaServiceTest {
             test.execute();
             assertEquals(gameSession.getPlayers().get(0).getPlayerName(),"some player");
             assertEquals(gameSession.getPlayers().get(0).getPlayerRole(), PlayerRole.Narrator.toString());
+            assertEquals(gameSession.getPlayerCount(), 1);
+            assertEquals(gameSession.getGameState(), GameState.LOBBY.toString());
         }
     }
 
