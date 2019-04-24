@@ -7,6 +7,7 @@ import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
 import com.deidaraxc4.mafiaparty.repository.PlayerRepository;
 import com.deidaraxc4.mafiaparty.service.MafiaService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class MafiaServiceImpl implements MafiaService {
         player.setStatus(PlayerState.ALIVE.toString());
         player.setPlayerRole(PlayerRole.Narrator.toString());
         GameSession gameSession = new GameSession();
+        gameSession.setPlayers(new ArrayList<>());
         gameSession.getPlayers().add(player);
         return gameSession;
     }
