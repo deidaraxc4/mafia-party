@@ -3,6 +3,7 @@ package com.deidaraxc4.mafiaparty.service.impl;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.GameState;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerState;
+import com.deidaraxc4.mafiaparty.exception.GameFullException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
@@ -19,6 +20,7 @@ public class MafiaServiceImpl implements MafiaService {
 
     private GameSessionRepository gameSessionRepository;
     private PlayerRepository playerRepository;
+    private static final int MAXIMUM_PLAYERS = 15;
 
     @Autowired
     public MafiaServiceImpl(GameSessionRepository gameSessionRepository, PlayerRepository playerRepository) {
@@ -43,6 +45,33 @@ public class MafiaServiceImpl implements MafiaService {
         gameSession.setPlayerCount(gameSession.getPlayerCount() + 1);
         gameSessionRepository.save(gameSession);
         return gameSession;
+    }
+
+    @Override
+    public Player joinMafiaGame(PlayerRequestBody player, int gameSessionId) throws GameFullException {
+        GameSession gameSession = gameSessionRepository.findById(gameSessionId).get();
+        if(gameSession.getPlayerCount() >= MAXIMUM_PLAYERS) {
+            throw new GameFullException();
+        }
+        Player p = new Player();
+        p.setPlayerName(player.getPlayerName());
+        p.setStatus(PlayerState.ALIVE.toString());
+        p.setGameSessionId(gameSessionId);
+
+        p.setGameSession(gameSession);
+        playerRepository.save(p);
+        List list = gameSession.getPlayers();
+        list.add(p);
+        gameSession.setPlayers(list);
+        gameSession.setPlayerCount(gameSession.getPlayerCount() + 1);
+        gameSessionRepository.save(gameSession);
+        return p;
+    }
+
+    @Override
+    public GameSession assignRoles(int gameSessionId) {
+
+        return null;
     }
 
 

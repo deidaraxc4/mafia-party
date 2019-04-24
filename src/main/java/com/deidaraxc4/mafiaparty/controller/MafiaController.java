@@ -2,12 +2,14 @@ package com.deidaraxc4.mafiaparty.controller;
 
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerState;
+import com.deidaraxc4.mafiaparty.exception.GameFullException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
 import com.deidaraxc4.mafiaparty.service.MafiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +30,12 @@ public class MafiaController {
     @PostMapping
     public GameSession createMafiaGame(@RequestBody PlayerRequestBody player) {
         return mafiaService.createMafiaGame(player);
+    }
+
+    @PatchMapping(value = "/{gameSessionId}")
+    public Player joinMafiaGame(@RequestBody PlayerRequestBody player, @PathVariable int gameSessionId)
+        throws GameFullException {
+        return mafiaService.joinMafiaGame(player,gameSessionId);
     }
 
 
