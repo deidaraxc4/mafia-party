@@ -20,14 +20,20 @@ public class CustomTypes {
     }
 
     public enum PlayerRole {
-        Narrator("Narrator"), Vigilante("Vigilante"),Sheriff("Sheriff"),Lookout("Lookout"),Veteran("Veteran"),Doctor("Doctor"),
-        BodyGuard("Bodyguard"),Mayor("Mayor"),Escort("Escort"),Retributionist("Retributionist"),Transporter("Transporte"),Godfather("Godfather"),
-        Mafioso("Mafioso"),Framer("Framer"),Blackmailer("Blackmailer"),Consort("Consort"),Survivor("Survivor"),Jester("Jester"),Executioner("Executioner"),Serial_Killer("Serial Killer");
+        Narrator("Narrator","Town"), Vigilante("Vigilante","Town"),Sheriff("Sheriff","Town"),Lookout("Lookout","Town"),Veteran("Veteran","Town"),Doctor("Doctor","Town"),
+        BodyGuard("Bodyguard","Town"),Mayor("Mayor","Town"),Escort("Escort","Town"),Retributionist("Retributionist","Town"),Transporter("Transporter","Town"),Godfather("Godfather","Mafia"),
+        Mafioso("Mafioso","Mafia"),Framer("Framer","Mafia"),Blackmailer("Blackmailer","Mafia"),Consort("Consort","Mafia"),Survivor("Survivor","Neutral"),Jester("Jester","Neutral"),Executioner("Executioner","Neutral"),Serial_Killer("Serial Killer","Neutral");
 
         private String role;
+        private String alignment;
 
-        PlayerRole(String role) {
+        PlayerRole(String role, String alignment) {
+            this.alignment = alignment;
             this.role = role;
+        }
+
+        public String getAlignment() {
+            return alignment;
         }
 
         public String toString() {
