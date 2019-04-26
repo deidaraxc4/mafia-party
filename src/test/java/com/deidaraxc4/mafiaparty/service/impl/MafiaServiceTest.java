@@ -178,4 +178,40 @@ public class MafiaServiceTest {
 
     }
 
+    @Nested
+    class changeState {
+        GameSession gameSession;
+        int gameSessionId = 1;
+        Executable test = () -> {
+            gameSession = mafiaService.changeState(gameSessionId);
+        };
+
+        @BeforeEach
+        void beforeEach() {
+            gameSession = new GameSession();
+            Optional<GameSession> optionalGameSession = Optional.of(gameSession);
+            when(gameSessionRepository.findById(eq(gameSessionId))).thenReturn(optionalGameSession);
+        }
+
+        @Test
+        void shouldStartGame() throws GameSessionNotFoundException {
+            assertEquals(mafiaService.startGame(gameSessionId).getGameState(),GameState.MORNING.toString());
+        }
+
+        @Test
+        void shouldEndGame() throws GameSessionNotFoundException {
+            assertEquals(mafiaService.endGame(gameSessionId).getGameState(),GameState.END.toString());
+        }
+
+        @Test
+        void shouldChangeDayTime() throws Throwable {
+            gameSession.setGameState(GameState.MORNING.toString());
+            test.execute();
+            assertEquals(gameSession.getGameState(),GameState.EVENING.toString());
+            test.execute();
+            assertEquals(gameSession.getGameState(),GameState.MORNING.toString());
+        }
+
+    }
+
 }

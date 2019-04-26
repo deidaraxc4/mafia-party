@@ -88,8 +88,38 @@ public class MafiaServiceImpl implements MafiaService {
         return gameSession;
     }
 
+    @Override
+    public GameSession changeState(int gameSessionId) throws GameSessionNotFoundException {
+        GameSession gameSession = gameSessionRepository.findById(gameSessionId)
+                .orElseThrow( () -> new GameSessionNotFoundException());
 
+        if(gameSession.getGameState().equals(GameState.MORNING.toString())) {
+            gameSession.setGameState(GameState.EVENING.toString());
+        } else if(gameSession.getGameState().equals(GameState.EVENING.toString())) {
+            gameSession.setGameState(GameState.MORNING.toString());
+        }
+        gameSessionRepository.save(gameSession);
+        return gameSession;
+    }
 
+    @Override
+    public GameSession startGame(int gameSessionId) throws GameSessionNotFoundException {
+        GameSession gameSession = gameSessionRepository.findById(gameSessionId)
+                .orElseThrow( () -> new GameSessionNotFoundException());
 
+        gameSession.setGameState(GameState.MORNING.toString());
+        gameSessionRepository.save(gameSession);
+        return gameSession;
+    }
+
+    @Override
+    public GameSession endGame(int gameSessionId) throws GameSessionNotFoundException {
+        GameSession gameSession = gameSessionRepository.findById(gameSessionId)
+                .orElseThrow( () -> new GameSessionNotFoundException());
+
+        gameSession.setGameState(GameState.END.toString());
+        gameSessionRepository.save(gameSession);
+        return gameSession;
+    }
 
 }

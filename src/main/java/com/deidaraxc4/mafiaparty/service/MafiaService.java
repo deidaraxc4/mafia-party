@@ -31,4 +31,28 @@ public interface MafiaService {
      */
     GameSession assignRoles(int gameSessionId) throws GameSessionNotFoundException;
 
+    /**
+     * Starts a game session by changing from Lobby mode to Morning
+     * @param gameSessionId the gameSession to change
+     * @return the gameSession that started
+     * @throws GameSessionNotFoundException
+     */
+    GameSession startGame(int gameSessionId) throws GameSessionNotFoundException;
+
+    /**
+     * Ends a game session by changing to End state
+     * @param gameSessionId the gameSession to end
+     * @return the gameSession that ended
+     * @throws GameSessionNotFoundException
+     */
+    GameSession endGame(int gameSessionId) throws GameSessionNotFoundException;
+
+    /**
+     * Change the current state of game, switches from Morning to Evening
+     * @param gameSessionId the gameSession to change
+     * @return The gameSession
+     * @throws GameSessionNotFoundException
+     */
+    GameSession changeState(int gameSessionId) throws GameSessionNotFoundException;
+
 }

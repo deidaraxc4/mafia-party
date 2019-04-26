@@ -42,6 +42,24 @@ public class MafiaController {
         return mafiaService.assignRoles(gameSessionId);
     }
 
+    @PostMapping(value = "change-state/{gameSessionId}")
+    public GameSession changeState(@PathVariable int gameSessionId)
+        throws GameSessionNotFoundException {
+        return mafiaService.changeState(gameSessionId);
+    }
+
+    @PostMapping(value = "start-game/{gameSessionId}")
+    public GameSession startGame(@PathVariable int gameSessionId)
+        throws GameSessionNotFoundException {
+        return mafiaService.startGame(gameSessionId);
+    }
+
+    @PostMapping(value = "end-game/{gameSessionId}")
+    public GameSession endGame(@PathVariable int gameSessionId)
+        throws GameSessionNotFoundException {
+        return mafiaService.endGame(gameSessionId);
+    }
+
 
 
 }
