@@ -21,7 +21,7 @@ public class MafiaServiceImpl implements MafiaService {
 
     private GameSessionRepository gameSessionRepository;
     private PlayerRepository playerRepository;
-    private static final int MAXIMUM_PLAYERS = 15;
+    private static final int MAXIMUM_PLAYERS = 16;
 
     @Autowired
     public MafiaServiceImpl(GameSessionRepository gameSessionRepository, PlayerRepository playerRepository) {
@@ -77,8 +77,13 @@ public class MafiaServiceImpl implements MafiaService {
                 .orElseThrow( () -> new GameSessionNotFoundException());
 
         gameSession.getPlayers().stream().forEach( player -> {
-            player.setPlayerRole(PlayerRole.getRandomRole().toString());
+            if(player.getPlayerRole()!=null && player.getPlayerRole().equals("Narrator")) {
+
+            } else {
+                player.setPlayerRole(PlayerRole.getRandomRole().toString());
+            }
         });
+        gameSessionRepository.save(gameSession);
 
         return gameSession;
     }

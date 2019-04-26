@@ -117,7 +117,7 @@ public class MafiaServiceTest {
 
             @BeforeEach
             void beforeEach() {
-                gameSession.setPlayerCount(15);
+                gameSession.setPlayerCount(16);
             }
 
             @Test
