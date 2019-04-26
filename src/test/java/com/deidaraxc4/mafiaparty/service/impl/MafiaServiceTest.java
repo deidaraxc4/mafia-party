@@ -1,6 +1,7 @@
 package com.deidaraxc4.mafiaparty.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.when;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.GameState;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.exception.GameFullException;
+import com.deidaraxc4.mafiaparty.exception.GameSessionNotFoundException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
@@ -95,6 +97,22 @@ public class MafiaServiceTest {
         }
 
         @Nested
+        class whenGameIsNonexistent {
+            Optional<GameSession> empty;
+
+            @BeforeEach
+            void beforeEach() {
+                empty = Optional.empty();
+                when(gameSessionRepository.findById(eq(gameSessionId))).thenReturn(empty);
+            }
+
+            @Test
+            void shouldThrowAnException() {
+                assertThrows(GameSessionNotFoundException.class, test);
+            }
+        }
+
+        @Nested
         class whenGameIsFull {
 
             @BeforeEach
@@ -105,6 +123,56 @@ public class MafiaServiceTest {
             @Test
             void shouldFailToJoin() {
                 assertThrows(GameFullException.class,test);
+            }
+        }
+
+    }
+
+    @Nested
+    class assignRoles {
+        int gameSessionId = 1;
+        GameSession gameSession;
+        Executable test = () -> {
+            gameSession = mafiaService.assignRoles(gameSessionId);
+        };
+
+        @BeforeEach
+        void beforeEach() {
+            gameSession = new GameSession();
+            ArrayList<Player> list = new ArrayList<>();
+            for(int i = 0; i < 15; i++) {
+                Player p = new Player();
+                p.setPlayerName("Player "+i);
+                list.add(p);
+            }
+            gameSession.setPlayers(list);
+            gameSession.setGameSessionId(gameSessionId);
+            gameSession.setPlayerCount(15);
+            Optional<GameSession> optionalGameSession = Optional.of(gameSession);
+            when(gameSessionRepository.findById(eq(gameSessionId))).thenReturn(optionalGameSession);
+        }
+
+        @Test
+        void shouldAssignRolesToEachPlayer() throws Throwable {
+            test.execute();
+            gameSession.getPlayers().stream().forEach( player -> {
+                assertNotNull(player.getPlayerRole());
+            });
+        }
+
+        @Nested
+        class whenGameIsNonexistent {
+            Optional<GameSession> empty;
+
+            @BeforeEach
+            void beforeEach() {
+                empty = Optional.empty();
+                when(gameSessionRepository.findById(eq(gameSessionId))).thenReturn(empty);
+            }
+
+            @Test
+            void shouldThrowAnException() {
+                assertThrows(GameSessionNotFoundException.class, test);
             }
         }
 

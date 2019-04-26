@@ -4,6 +4,7 @@ import com.deidaraxc4.mafiaparty.constants.CustomTypes.GameState;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerState;
 import com.deidaraxc4.mafiaparty.exception.GameFullException;
+import com.deidaraxc4.mafiaparty.exception.GameSessionNotFoundException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
@@ -48,8 +49,10 @@ public class MafiaServiceImpl implements MafiaService {
     }
 
     @Override
-    public Player joinMafiaGame(PlayerRequestBody player, int gameSessionId) throws GameFullException {
-        GameSession gameSession = gameSessionRepository.findById(gameSessionId).get();
+    public Player joinMafiaGame(PlayerRequestBody player, int gameSessionId)
+            throws GameFullException, GameSessionNotFoundException {
+        GameSession gameSession = gameSessionRepository.findById(gameSessionId)
+                .orElseThrow( () -> new GameSessionNotFoundException());
         if(gameSession.getPlayerCount() >= MAXIMUM_PLAYERS) {
             throw new GameFullException();
         }
@@ -69,9 +72,15 @@ public class MafiaServiceImpl implements MafiaService {
     }
 
     @Override
-    public GameSession assignRoles(int gameSessionId) {
+    public GameSession assignRoles(int gameSessionId) throws GameSessionNotFoundException {
+        GameSession gameSession = gameSessionRepository.findById(gameSessionId)
+                .orElseThrow( () -> new GameSessionNotFoundException());
 
-        return null;
+        gameSession.getPlayers().stream().forEach( player -> {
+            player.setPlayerRole(PlayerRole.getRandomRole().toString());
+        });
+
+        return gameSession;
     }
 
 

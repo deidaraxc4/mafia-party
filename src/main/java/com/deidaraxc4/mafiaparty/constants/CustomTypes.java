@@ -1,5 +1,9 @@
 package com.deidaraxc4.mafiaparty.constants;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class CustomTypes {
 
     public enum GameState {
@@ -30,6 +34,38 @@ public class CustomTypes {
         PlayerRole(String role, String alignment) {
             this.alignment = alignment;
             this.role = role;
+        }
+
+        public static PlayerRole getRandomRole() {
+            Random random = new Random();
+            return values()[random.nextInt(values().length)];
+        }
+
+        public static PlayerRole getRandomTownRole() {
+            Random random = new Random();
+            while(true) {
+                PlayerRole role = values()[random.nextInt(values().length)];
+                if(role.getAlignment().equals("Town")) {
+                    return role;
+                }
+            }
+        }
+
+        // 2 neutral, 9 town, 4 mafia
+        // 0-10 is town, 11-15 mafia, 16-19 is neutral
+        public static List<PlayerRole> getRandomRoles() {
+            List<PlayerRole> list = new ArrayList<>();
+            Random random = new Random();
+            for(int i = 0; i < 9; i++) {
+                list.add(values()[random.nextInt(11)]);
+            }
+            for(int i = 0; i < 4; i++) {
+                list.add(values()[random.nextInt(16) + 11]);
+            }
+            for(int i = 0; i < 2; i++) {
+                list.add(values()[random.nextInt(20) + 16]);
+            }
+            return list;
         }
 
         public String getAlignment() {
