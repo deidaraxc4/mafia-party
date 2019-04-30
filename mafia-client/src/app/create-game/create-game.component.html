@@ -2,6 +2,13 @@
   create-game works!
 </p>
 <div>
-  
-  <button mat-raised-button color="primary">Primary</button>
+  <!-- <form #form="ngForm" (click)="createGame(playerName.value)"> -->
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label color="primary">Enter nickname</mat-label>
+        <input #playerName matInput placeholder="Enter nickname">
+      </mat-form-field>
+    </p>
+    <button (click)="createGame(playerName.value)" mat-raised-button color="primary">Create Game</button>
+  <!-- </form> -->
 </div>

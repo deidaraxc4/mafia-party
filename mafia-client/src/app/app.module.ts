@@ -19,6 +19,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { JoinGameComponent } from './join-game/join-game.component';
 import { CreateGameComponent } from './create-game/create-game.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NarratorScreenComponent } from './narrator-screen/narrator-screen.component';
 
 
 
@@ -29,7 +31,8 @@ import { CreateGameComponent } from './create-game/create-game.component';
     AboutComponent,
     RoleCardComponent,
     JoinGameComponent,
-    CreateGameComponent
+    CreateGameComponent,
+    NarratorScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { CreateGameComponent } from './create-game/create-game.component';
     MatGridListModule,
     MatFormFieldModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
