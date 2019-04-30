@@ -2,6 +2,7 @@ package com.deidaraxc4.mafiaparty.service;
 
 import com.deidaraxc4.mafiaparty.exception.GameFullException;
 import com.deidaraxc4.mafiaparty.exception.GameSessionNotFoundException;
+import com.deidaraxc4.mafiaparty.exception.PlayerNotFoundException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
@@ -23,6 +24,16 @@ public interface MafiaService {
      * @return The player that joined
      */
     Player joinMafiaGame(PlayerRequestBody player, int gameSessionId) throws GameFullException, GameSessionNotFoundException;
+
+    /**
+     * Removes a player from an existing gameSession
+     * @param gameSessionId Existing gameSessionId
+     * @param playerId The player to remove
+     * @return The new game session after removal
+     * @throws GameSessionNotFoundException
+     * @throws PlayerNotFoundException
+     */
+    GameSession leaveMafiaGame(int gameSessionId, int playerId) throws GameSessionNotFoundException, PlayerNotFoundException;
 
     /**
      * This is called when the game starts, roles are randomly assigned

@@ -4,18 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.GameState;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.exception.GameFullException;
 import com.deidaraxc4.mafiaparty.exception.GameSessionNotFoundException;
+import com.deidaraxc4.mafiaparty.exception.PlayerNotFoundException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
 import com.deidaraxc4.mafiaparty.repository.PlayerRepository;
 import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -124,6 +127,62 @@ public class MafiaServiceTest {
             void shouldFailToJoin() {
                 assertThrows(GameFullException.class,test);
             }
+        }
+
+    }
+
+    @Nested
+    class leaveMafiaGame {
+        GameSession gameSession;
+        Player player;
+        int gameSessionId = 1;
+        int playerId = 1;
+        List<Player> playerList;
+        Executable test = () -> {
+            gameSession = mafiaService.leaveMafiaGame(gameSessionId,playerId);
+        };
+
+        @BeforeEach
+        void beforeEach() {
+            gameSession = new GameSession();
+            playerList = new ArrayList<>();
+            for(int i = 0; i < 3; i++) {
+                Player p = new Player();
+                p.setPlayerName("player "+i);
+                p.setPlayerId(i);
+                playerList.add(p);
+            }
+            gameSession.setPlayers(playerList);
+            player = new Player();
+            Optional<GameSession> optionalGameSession = Optional.of(gameSession);
+            Optional<Player> optionalPlayer = Optional.of(player);
+            when(gameSessionRepository.findById(eq(gameSessionId))).thenReturn(optionalGameSession);
+            when(playerRepository.findById(eq(playerId))).thenReturn(optionalPlayer);
+
+        }
+
+        @Test
+        void shouldDeleteGameWhenLastPlayerLeaves() throws Throwable {
+            playerList.clear();
+            gameSession.setPlayers(playerList);
+            test.execute();
+            verify(gameSessionRepository).delete(gameSession);
+        }
+
+        @Test
+        void shouldRemovePlayer() throws Throwable {
+            int previousSize = playerList.size();
+            test.execute();
+            assertEquals(previousSize - 1, gameSession.getPlayers().size());
+            verify(playerRepository).delete(player);
+        }
+        
+        @Test
+        void shouldThrowExceptionWhenPlayerDoesNotExist() throws Throwable {
+            Optional optional = Optional.empty();
+            when(playerRepository.findById(eq(playerId))).thenReturn(optional);
+            assertThrows(PlayerNotFoundException.class,test);
+
         }
 
     }

@@ -5,6 +5,7 @@ import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerRole;
 import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerState;
 import com.deidaraxc4.mafiaparty.exception.GameFullException;
 import com.deidaraxc4.mafiaparty.exception.GameSessionNotFoundException;
+import com.deidaraxc4.mafiaparty.exception.PlayerNotFoundException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.repository.GameSessionRepository;
@@ -13,6 +14,7 @@ import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
 import com.deidaraxc4.mafiaparty.service.MafiaService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +71,26 @@ public class MafiaServiceImpl implements MafiaService {
         gameSession.setPlayerCount(gameSession.getPlayerCount() + 1);
         gameSessionRepository.save(gameSession);
         return p;
+    }
+
+    @Override
+    public GameSession leaveMafiaGame(int gameSessionId, int playerId)
+            throws GameSessionNotFoundException, PlayerNotFoundException {
+        GameSession gameSession = gameSessionRepository.findById(gameSessionId)
+                .orElseThrow( () -> new GameSessionNotFoundException());
+        List<Player> playerList = gameSession.getPlayers().stream()
+                .filter(player -> player.getPlayerId()!=playerId).collect(Collectors.toList());
+        if(playerList.size()==0) {
+            gameSessionRepository.delete(gameSession);
+        } else {
+            gameSession.setPlayers(playerList);
+            gameSessionRepository.save(gameSession);
+        }
+
+        Player player = playerRepository.findById(playerId)
+                .orElseThrow( () -> new PlayerNotFoundException());
+        playerRepository.delete(player);
+        return gameSession;
     }
 
     @Override

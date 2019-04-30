@@ -2,6 +2,7 @@ package com.deidaraxc4.mafiaparty.controller;
 
 import com.deidaraxc4.mafiaparty.exception.GameFullException;
 import com.deidaraxc4.mafiaparty.exception.GameSessionNotFoundException;
+import com.deidaraxc4.mafiaparty.exception.PlayerNotFoundException;
 import com.deidaraxc4.mafiaparty.model.GameSession;
 import com.deidaraxc4.mafiaparty.model.Player;
 import com.deidaraxc4.mafiaparty.request.PlayerRequestBody;
@@ -34,6 +35,12 @@ public class MafiaController {
     public Player joinMafiaGame(@RequestBody PlayerRequestBody player, @PathVariable int gameSessionId)
         throws GameFullException, GameSessionNotFoundException {
         return mafiaService.joinMafiaGame(player,gameSessionId);
+    }
+
+    @PatchMapping(value = "/{gameSessionId}/leave/{playerId}")
+    public GameSession leaveMafiaGame(@PathVariable int gameSessionId, @PathVariable int playerId)
+        throws GameSessionNotFoundException, PlayerNotFoundException {
+        return mafiaService.leaveMafiaGame(gameSessionId,playerId);
     }
 
     @PostMapping(value = "assign-roles/{gameSessionId}")
