@@ -176,7 +176,7 @@ public class MafiaServiceTest {
             assertEquals(previousSize - 1, gameSession.getPlayers().size());
             verify(playerRepository).delete(player);
         }
-        
+
         @Test
         void shouldThrowExceptionWhenPlayerDoesNotExist() throws Throwable {
             Optional optional = Optional.empty();

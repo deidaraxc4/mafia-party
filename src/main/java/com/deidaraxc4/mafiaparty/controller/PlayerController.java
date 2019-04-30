@@ -1,8 +1,8 @@
 package com.deidaraxc4.mafiaparty.controller;
 
-import com.deidaraxc4.mafiaparty.constants.CustomTypes.PlayerState;
+import com.deidaraxc4.mafiaparty.exception.GameSessionNotFoundException;
+import com.deidaraxc4.mafiaparty.exception.PlayerNotFoundException;
 import com.deidaraxc4.mafiaparty.model.Player;
-import com.deidaraxc4.mafiaparty.service.MafiaService;
 import com.deidaraxc4.mafiaparty.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +24,15 @@ public class PlayerController {
     }
 
     @GetMapping(value = "/{playerId}")
-    public Player getPlayerById(@PathVariable Integer playerId) {
+    public Player getPlayerById(@PathVariable Integer playerId)
+            throws PlayerNotFoundException {
         return playerService.findPlayerById(playerId);
     }
 
-    @PostMapping
-    public Player createPlayer(@RequestBody Player player) {
-        player.setStatus(PlayerState.ALIVE.toString());
-        return playerService.createPlayer(player);
+    @PostMapping(value = "/{gameSessionId}")
+    public Player createPlayer(@RequestBody Player player, @PathVariable int gameSessionId)
+            throws GameSessionNotFoundException {
+        return playerService.createPlayer(player,gameSessionId);
     }
 
 }
