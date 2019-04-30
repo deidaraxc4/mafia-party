@@ -17,6 +17,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { JoinGameComponent } from './join-game/join-game.component';
+import { CreateGameComponent } from './create-game/create-game.component';
 
 
 
@@ -25,7 +27,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     AppComponent,
     HomeComponent,
     AboutComponent,
-    RoleCardComponent
+    RoleCardComponent,
+    JoinGameComponent,
+    CreateGameComponent
   ],
   imports: [
     BrowserModule,
