@@ -5,8 +5,8 @@
   <mat-grid-list cols="2" rowHeight="2:1">
     <mat-grid-tile>
       <div>
-          <p>Join game using room code: blank</p>
-          <button mat-raised-button color="primary">Start Game</button>
+          <p>Join game using room code: {{gameSession.playerCount}}</p>
+          <button (click)="getGame()" mat-raised-button color="primary">Start Game</button>
       </div>
     </mat-grid-tile>
     <mat-grid-tile>

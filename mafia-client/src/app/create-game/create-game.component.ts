@@ -21,7 +21,11 @@ export class CreateGameComponent implements OnInit {
   createGame(playerName: PlayerRequest) {
     console.log(JSON.stringify(playerName));
     let header = new HttpHeaders({'Content-Type': 'application/json'});
-    this.mafiaService.createGame(playerName);
+    let gamesession = this.mafiaService.createGame(playerName)
+    .subscribe((response) => {
+      console.log(response);
+      this.route.navigate(['/narrator-screen']);
+    });;
     // this.http.post<GameSession>(this.createGameUrl,JSON.stringify({playerName}),{headers :header})
     //   .subscribe((response) => {
     //     console.log(response);
